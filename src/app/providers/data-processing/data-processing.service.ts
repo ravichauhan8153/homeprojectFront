@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { CommonFunctionsService } from '../../utils/common-functions/common-functions.service';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
 export class DataProcessingService {
-  private dataUrl = 'assets/utility/playlist.json'; 
+  baseUrl = environment.baseUrl;
+  constructor(private _commonFunction: CommonFunctionsService) {}
 
-  constructor(private http: HttpClient) {}
+  getPlaylist = (data: any): Observable<any> => {
+    const endpoint = this.baseUrl + 'playlist/getPlaylist';
+    return this._commonFunction.globalPostService(endpoint, data);
+  };
 
-  getData(): Observable<any> {
-    return this.http.get<any>(this.dataUrl);
-  }
+  addReview = (data: any): Observable<any> => {
+    const endpoint = this.baseUrl + 'playlist/addReview';
+    return this._commonFunction.globalPostService(endpoint, data);
+  };
+
+  uploadFile = (data: any): Observable<any> => {
+    const endpoint = this.baseUrl + 'playlist/uploadFile';
+    return this._commonFunction.globalPostService(endpoint, data);
+  };
 }

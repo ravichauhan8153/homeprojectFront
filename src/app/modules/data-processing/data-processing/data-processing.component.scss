@@ -99,3 +99,15 @@
     }
   }
 }
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.pageSelected{
+  background-color: rgba(0, 0, 0, 0.13);
+  color: black !important;
+  font-weight: 800;
+}
+.page-item{
+  cursor: pointer;
+}

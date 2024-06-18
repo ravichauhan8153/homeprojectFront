@@ -45,6 +45,7 @@
                   placeholder="Search..."
                   aria-label="search"
                   aria-describedby="basic-addon1"
+                  (keyup)="serch($event)"
                 />
               </div>
             </form>
@@ -54,69 +55,129 @@
         <div class="table_responsive">
           <table class="table">
             <colgroup>
-                <col width="10%" />
-                <col width="25%" />
-                <col width="25%" />
-                <col width="25%" />
-                <col width="15%" />
-              </colgroup>
+              <col width="20%" />
+              <col width="20%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="10%" />
+              <col width="20%" />
+            </colgroup>
             <thead>
               <tr>
-                <th>
-                  No <i class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+                <th (click)="short('id')">
+                  Id <i class="fa fa-sort-amount-desc" aria-hidden="true"></i>
                 </th>
-                <th>
-                  Name 1
+                <th (click)="short('title')">
+                  Title
                   <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
                 </th>
-                <th>
-                  Name 2
+                <th (click)="short('danceability')">
+                  Danceability
                   <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
                 </th>
-                <th>
-                  Name 3
+                <th (click)="short('energy')">
+                  Energy
                   <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
                 </th>
-                <th>
-                  Action
+                <th (click)="short('mode')">
+                  Mode
+                  <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
                 </th>
+                <th (click)="short('acousticness')">
+                  Acousticness
+                  <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                </th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td><button type="button" class="btn btn-success btn-sm" (click)="addReviewdialog()">Add Review</button></td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td><button type="button" class="btn btn-success btn-sm" (click)="addReviewdialog()">Add Review</button></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td><button type="button" class="btn btn-success btn-sm" (click)="addReviewdialog()">Add Review</button></td>
+              <tr *ngFor="let data of dataArray">
+                <td>{{ data?.id }}</td>
+                <td>{{ data?.title }}</td>
+                <td>{{ data?.danceability }}</td>
+                <td>{{ data?.energy }}</td>
+                <td>{{ data?.mode }}</td>
+                <td>{{ data?.acousticness }}</td>
+                <td>
+                  <div class="rate" *ngIf="data?.review">
+                    <input
+                      type="radio"
+                      id="star5"
+                      name="rate"
+                      value="5"
+                      [(ngModel)]="data.review"
+                    />
+                    <label for="star5" title="5 stars">5 stars</label>
+                    <input
+                      type="radio"
+                      id="star4"
+                      name="rate"
+                      value="4"
+                      [(ngModel)]="data.review"
+                    />
+                    <label for="star4" title="4 stars">4 stars</label>
+                    <input
+                      type="radio"
+                      id="star3"
+                      name="rate"
+                      value="3"
+                      [(ngModel)]="data.review"
+                    />
+                    <label for="star3" title="3 stars">3 stars</label>
+                    <input
+                      type="radio"
+                      id="star2"
+                      name="rate"
+                      value="2"
+                      [(ngModel)]="data.review"
+                    />
+                    <label for="star2" title="2 stars">2 stars</label>
+                    <input
+                      type="radio"
+                      id="star1"
+                      name="rate"
+                      value="1"
+                      [(ngModel)]="data.review"
+                    />
+                    <label for="star1" title="1 star">1 star</label>
+                  </div>
+                  <button
+                    *ngIf="!data?.review"
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    (click)="addReviewdialog(data?.id)"
+                  >
+                    Add Review
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" *ngIf="totalPage > 1">
           <ul class="pagination justify-content-center mt-2">
-            <li class="page-item disabled">
+            <li
+              class="page-item"
+              [class.disabled]="currentPage == 1"
+              (click)="selectNextPrevious(false)"
+            >
               <a class="page-link">Previous</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
+            <li
+              class="page-item"
+              *ngFor="let i of [].constructor(totalPage); let no = index"
+              [class.pageSelected]="currentPage == no + 1"
+              (click)="selectPage(no + 1)"
+            >
+              <a class="page-link">{{ no + 1 }}</a>
+            </li>
+            <li
+              class="page-item"
+              [class.disabled]="currentPage == totalPage"
+              (click)="selectNextPrevious(true)"
+            >
+              <a class="page-link">Next</a>
             </li>
           </ul>
         </nav>
