@@ -33,6 +33,10 @@
       margin: 0 10px;
       cursor: pointer;
     }
+    .form-control {
+        outline: none;
+        box-shadow: none;
+    }
   }
 }
 
