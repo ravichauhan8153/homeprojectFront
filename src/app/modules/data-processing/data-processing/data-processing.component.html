@@ -1,42 +1,55 @@
-<table border="1px solide black">
-  <tr>
-    <th>Id</th>
-    <th>title</th>
-    <th>danceability</th>
-    <th>energy</th>
-    <th>key</th>
-    <th>loudness</th>
-    <th>mode</th>
-    <th>acousticness</th>
-    <th>instrumentalness</th>
-    <th>liveness</th>
-    <th>valence</th>
-    <th>tempo</th>
-    <th>duration_ms</th>
-    <th>time_signature</th>
-    <th>num_bars</th>
-    <th>num_sections</th>
-    <th>num_segments</th>
-    <th>class</th>
-  </tr>
-  <tr *ngFor="let data of dataArray">
-    <td>{{ data?.id }}</td>
-    <td>{{ data?.title }}</td>
-    <td>{{ data?.danceability }}</td>
-    <td>{{ data?.energy }}</td>
-    <td>{{ data?.key }}</td>
-    <td>{{ data?.loudness }}</td>
-    <td>{{ data?.mode }}</td>
-    <td>{{ data?.acousticness }}</td>
-    <td>{{ data?.instrumentalness }}</td>
-    <td>{{ data?.liveness }}</td>
-    <td>{{ data?.valence }}</td>
-    <td>{{ data?.tempo }}</td>
-    <td>{{ data?.duration_ms }}</td>
-    <td>{{ data?.time_signature }}</td>
-    <td>{{ data?.num_bars }}</td>
-    <td>{{ data?.num_sections }}</td>
-    <td>{{ data?.num_segments }}</td>
-    <td>{{ data?.class }}</td>
-  </tr>
-</table>
+<div class="container-fluid pt-4 pb-5">
+  <div class="row">
+    <div class="col-12 col-lg-12 col-xl-12">
+      <div class="table_box boxes">
+        <div class="namediv">
+          <h4 class="title">Details Table</h4>
+          <div class="rightside">
+            <button type="button" class="btn-date">Export</button>
+          </div>
+        </div>
+        <div class="table_responsive">
+          <table class="table table-bordered">
+            <tr>
+              <th>Id <i class="fa fa-sort-amount-desc"></i></th>
+              <th>title <i class="fa fa-sort-amount-asc"></i></th>
+              <th>danceability <i class="fa fa-sort-amount-asc"></i></th>
+              <th>energy <i class="fa fa-sort-amount-asc"></i></th>
+              <th>mode <i class="fa fa-sort-amount-asc"></i></th>
+              <th>acousticness <i class="fa fa-sort-amount-asc"></i></th>
+              <th>tempo <i class="fa fa-sort-amount-asc"></i></th>
+              <th>duration_ms <i class="fa fa-sort-amount-asc"></i></th>
+              <th>num_sections <i class="fa fa-sort-amount-asc"></i></th>
+              <th>num_segments <i class="fa fa-sort-amount-asc"></i></th>
+            </tr>
+            <tr *ngFor="let data of dataArray">
+              <td>{{ data?.id }}</td>
+              <td>{{ data?.title }}</td>
+              <td>{{ data?.danceability }}</td>
+              <td>{{ data?.energy }}</td>
+              <td>{{ data?.mode }}</td>
+              <td>{{ data?.acousticness }}</td>
+              <td>{{ data?.tempo }}</td>
+              <td>{{ data?.duration_ms }}</td>
+              <td>{{ data?.num_sections }}</td>
+              <td>{{ data?.num_segments }}</td>
+            </tr>
+          </table>
+        </div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center mt-2">
+            <li class="page-item disabled">
+              <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
