@@ -1,0 +1,42 @@
+<table border="1px solide black">
+  <tr>
+    <th>Id</th>
+    <th>title</th>
+    <th>danceability</th>
+    <th>energy</th>
+    <th>key</th>
+    <th>loudness</th>
+    <th>mode</th>
+    <th>acousticness</th>
+    <th>instrumentalness</th>
+    <th>liveness</th>
+    <th>valence</th>
+    <th>tempo</th>
+    <th>duration_ms</th>
+    <th>time_signature</th>
+    <th>num_bars</th>
+    <th>num_sections</th>
+    <th>num_segments</th>
+    <th>class</th>
+  </tr>
+  <tr *ngFor="let data of dataArray">
+    <td>{{ data?.id }}</td>
+    <td>{{ data?.title }}</td>
+    <td>{{ data?.danceability }}</td>
+    <td>{{ data?.energy }}</td>
+    <td>{{ data?.key }}</td>
+    <td>{{ data?.loudness }}</td>
+    <td>{{ data?.mode }}</td>
+    <td>{{ data?.acousticness }}</td>
+    <td>{{ data?.instrumentalness }}</td>
+    <td>{{ data?.liveness }}</td>
+    <td>{{ data?.valence }}</td>
+    <td>{{ data?.tempo }}</td>
+    <td>{{ data?.duration_ms }}</td>
+    <td>{{ data?.time_signature }}</td>
+    <td>{{ data?.num_bars }}</td>
+    <td>{{ data?.num_sections }}</td>
+    <td>{{ data?.num_segments }}</td>
+    <td>{{ data?.class }}</td>
+  </tr>
+</table>
