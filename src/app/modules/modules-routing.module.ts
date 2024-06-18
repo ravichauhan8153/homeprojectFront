@@ -9,7 +9,7 @@ const routes: Routes = [
     data: { title: 'Dashboard Modules' },
   },
   {
-    path: '',
+    path: 'data-processing',
     loadChildren: () =>
       import('./data-processing/data-processing.module').then(
         (m) => m.DataProcessingModule
