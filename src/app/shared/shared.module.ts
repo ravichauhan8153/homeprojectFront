@@ -13,9 +13,12 @@ import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
+import { AddReviewComponent } from './dialog/add-review/add-review.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AddReviewComponent
+  ],
   imports: [
     CommonModule,
     SharedRoutingModule,
