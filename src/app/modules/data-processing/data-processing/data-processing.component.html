@@ -5,23 +5,25 @@
         <div class="namediv">
           <h4 class="title">Details Table</h4>
           <div class="rightside">
-            <button type="button" class="btn-date">Export</button>
+            <button type="button" class="btn-import">Import <input type="file"></button>
           </div>
         </div>
         <div class="table_responsive">
           <table class="table table-bordered">
-            <tr>
-              <th>Id <i class="fa fa-sort-amount-desc"></i></th>
-              <th>title <i class="fa fa-sort-amount-asc"></i></th>
-              <th>danceability <i class="fa fa-sort-amount-asc"></i></th>
-              <th>energy <i class="fa fa-sort-amount-asc"></i></th>
-              <th>mode <i class="fa fa-sort-amount-asc"></i></th>
-              <th>acousticness <i class="fa fa-sort-amount-asc"></i></th>
-              <th>tempo <i class="fa fa-sort-amount-asc"></i></th>
-              <th>duration_ms <i class="fa fa-sort-amount-asc"></i></th>
-              <th>num_sections <i class="fa fa-sort-amount-asc"></i></th>
-              <th>num_segments <i class="fa fa-sort-amount-asc"></i></th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Id <i class="fa fa-sort-amount-desc"></i></th>
+                <th>title <i class="fa fa-sort-amount-asc"></i></th>
+                <th>danceability <i class="fa fa-sort-amount-asc"></i></th>
+                <th>energy <i class="fa fa-sort-amount-asc"></i></th>
+                <th>mode <i class="fa fa-sort-amount-asc"></i></th>
+                <th>acousticness <i class="fa fa-sort-amount-asc"></i></th>
+                <th>tempo <i class="fa fa-sort-amount-asc"></i></th>
+                <th>duration_ms <i class="fa fa-sort-amount-asc"></i></th>
+                <th>num_sections <i class="fa fa-sort-amount-asc"></i></th>
+                <th>num_segments <i class="fa fa-sort-amount-asc"></i></th>
+              </tr>
+            </thead>
             <tr *ngFor="let data of dataArray">
               <td>{{ data?.id }}</td>
               <td>{{ data?.title }}</td>
