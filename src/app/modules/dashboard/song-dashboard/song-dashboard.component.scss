@@ -96,3 +96,35 @@
     }
   }
 }
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.pageSelected{
+  background-color: rgba(0, 0, 0, 0.13);
+  color: black !important;
+  font-weight: 800;
+}
+.page-item{
+  cursor: pointer;
+}
+.rate {
+  float: left;
+  height: 32px;
+}
+.rate:not(:checked) > input {
+  position:absolute;
+  top:-9999px;
+}
+.rate:not(:checked) > label {
+  float:right;
+  width:1em;
+  overflow:hidden;
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:30px;
+  color:#ffc700;
+}
+.rate:not(:checked) > label:before {
+  content: '★ ';
+}

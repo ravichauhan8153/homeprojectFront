@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // Load Module
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,6 +15,7 @@ import { SongDashboardComponent } from './song-dashboard/song-dashboard.componen
     SongDashboardComponent
   ],
   imports: [
+    FormsModule,
     CommonModule,
     DashboardRoutingModule,
     SharedModule
