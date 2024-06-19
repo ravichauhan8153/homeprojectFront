@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ErrorModel } from '../../../utils/models/error';
 import { ResponseModel } from '../../../utils/models/response';
 import * as Highcharts from 'highcharts';
+import { saveAs } from 'file-saver';
 
 //COMPONENT
 import { AddReviewComponent } from 'src/app/shared/dialog/add-review/add-review.component';
@@ -25,9 +26,11 @@ export class SongDashboardComponent {
   pageLimit: number = 10;
   currentPage: number = 1;
   totalPage: number = 0;
+  totalSong: number = 0;
   sortBy: any;
   searchText: any;
   isAscendingOrder: boolean = true;
+  isDownload: boolean = false;
 
   constructor(
     private _dataProcessing: DataProcessingService,
@@ -123,48 +126,42 @@ export class SongDashboardComponent {
     });
   }
 
-  renderBarChart() {
+  renderBarChart(data?: any) {
+    console.log("===",data);
+    
+    let categories = _.map(data, 'id');
+    let acousticness = _.map(data, 'num_sections');
+    console.log("===",acousticness);
+    
+    let tempo = _.map(data, 'tempo');
     var chart3 = Highcharts.chart({
       chart: {
         renderTo: 'chart-2', // Specify the ID of the container where the chart should be rendered
         type: 'column',
       },
       title: {
-        text: 'Week-wise Connection and Followers Data',
+        text: '',
       },
       xAxis: {
-        categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
+        categories: categories,
       },
       yAxis: {
         title: {
-          text: 'Follower-Connection',
+          text: '',
         },
       },
       series: [
         {
-          name: 'Followers',
+          name: 'Acousticness',
           color: '#FB6514',
           type: 'column',
-          data: [10, 20],
+          data: acousticness,
         },
         {
-          name: 'Connection',
+          name: 'Tempo',
           color: '#FEB273',
           type: 'column',
-          data: [10, 20],
+          data: tempo,
         },
       ],
     });
@@ -233,8 +230,9 @@ export class SongDashboardComponent {
       (response: ResponseModel) => {
         if (response.status == 200) {
           this.dataArray = response?.data?.playlistData;
-          let totalRecord = response?.data?.totalSong;
-          this.totalPage = Math.round(totalRecord / this.pageLimit);
+          this.renderBarChart(this.dataArray);
+          this.totalSong = response?.data?.totalSong;
+          this.totalPage = Math.round(this.totalSong / this.pageLimit);
         }
       },
       (err: ErrorModel) => {
@@ -274,5 +272,115 @@ export class SongDashboardComponent {
     this.totalPage = 0;
     this.isAscendingOrder = !this.isAscendingOrder;
     this.getPlaylist();
+  }
+
+  download() {
+    let param = {
+      page: 1,
+      limit: this.totalSong,
+    };
+    this._dataProcessing.getPlaylist(param).subscribe(
+      (response: ResponseModel) => {
+        if (response.status == 200) {
+          let listsDataCSV = response?.data?.playlistData;
+          let fieldSequence = [
+            {
+              id: 'id',
+              label: 'Id',
+            },
+            {
+              id: 'title',
+              label: 'Title',
+            },
+            {
+              id: 'danceability',
+              label: 'Danceability',
+            },
+            {
+              id: 'energy',
+              label: 'Energy',
+            },
+            {
+              id: 'mode',
+              label: 'Mode',
+            },
+            {
+              id: 'acousticness',
+              label: 'Acousticness',
+            },
+            {
+              id: 'tempo',
+              label: 'Tempo',
+            },
+            {
+              id: 'duration_ms',
+              label: 'Duration_ms',
+            },
+            {
+              id: 'num_sections',
+              label: 'Num Sections',
+            },
+            {
+              id: 'num_segments',
+              label: 'Num Segments',
+            },
+            {
+              id: 'review',
+              label: 'Review',
+            },
+          ];
+
+          let finalHeader: any = [];
+          let objectOrder: any = {};
+          fieldSequence.forEach((value, index) => {
+            finalHeader.push(value.label);
+            objectOrder[value.id] = null;
+          });
+          let keys: any = [];
+          let rearrangedData = [];
+          let tempObj: any = {};
+          keys = Object.keys(objectOrder);
+          for (let i = 0; i < listsDataCSV.length; i++) {
+            tempObj = {};
+
+            for (let j = 0; j < keys.length; j++) {
+              let dataVal = listsDataCSV[i][keys[j]];
+
+              tempObj[keys[j]] = dataVal;
+
+              rearrangedData.push(tempObj);
+            }
+          }
+          keys = [...keys];
+          const replacer = (key: any, value: null) =>
+            value === null ? '' : value; // specify how you want to handle null values here
+          let csv = rearrangedData.map((row) =>
+            keys
+              .map((fieldName: string | number) =>
+                JSON.stringify(row[fieldName], replacer)
+              )
+              .join(',')
+          );
+          csv.unshift(finalHeader.join(','));
+          let csvArray = csv.join('\r\n');
+
+          var blob = new Blob([csvArray], { type: 'text/csv' });
+
+          let d = new Date();
+          let n = d.toLocaleTimeString();
+          n = n.replace(/[:]/g, '');
+          let exportFileName = 'Exported_Playlist_' + n + '.csv';
+          saveAs(blob, exportFileName);
+        }
+      },
+      (err: ErrorModel) => {
+        if (err.error) {
+          const error: ResponseModel = err.error;
+          // this.toastr.error(error.message, '');
+        } else {
+          // this.toastr.error(MessageConstant.unknownError, '');
+        }
+      }
+    );
   }
 }
